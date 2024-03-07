@@ -1,0 +1,16 @@
+{
+    "files": [
+        "app.py",
+        "app_info.py",
+        "ui/docker_not_running.ui",
+        "ui/exporting.ui",
+        "ui/loadingproject.ui",
+        "mainwindow.py",
+        "ui/mainwindow.ui",
+        "ui/newproject.ui",
+        "ui/programsetup.ui",
+        "ui/projectselector.ui",
+        "res/resources.qrc",
+        "ui/plugininfo.ui"
+    ]
+}

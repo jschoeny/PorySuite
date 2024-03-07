@@ -1,0 +1,2428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>986</width>
+    <height>900</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>900</width>
+    <height>871</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>PorySuite</string>
+  </property>
+  <property name="documentMode">
+   <bool>true</bool>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>2</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="handleWidth">
+       <number>16</number>
+      </property>
+      <widget class="QGroupBox" name="mainBox">
+       <property name="title">
+        <string/>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTabWidget" name="mainTabs">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>630</height>
+           </size>
+          </property>
+          <property name="tabPosition">
+           <enum>QTabWidget::West</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="usesScrollButtons">
+           <bool>false</bool>
+          </property>
+          <property name="documentMode">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="tab_pokemon">
+           <attribute name="title">
+            <string>Pokémon</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_pokemon_grid">
+            <item row="0" column="1">
+             <widget class="QTabWidget" name="tab_pokemon_data">
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <widget class="QWidget" name="tab_pokemon_info">
+               <attribute name="title">
+                <string>Info</string>
+               </attribute>
+               <layout class="QGridLayout" name="tab_pokemon_info_grid">
+                <item row="0" column="1">
+                 <layout class="QVBoxLayout" name="verticalLayout_pokemon_info">
+                  <item>
+                   <widget class="QLabel" name="label_32">
+                    <property name="text">
+                     <string>Flags</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QListWidget" name="species_flags">
+                    <property name="verticalScrollBarPolicy">
+                     <enum>Qt::ScrollBarAsNeeded</enum>
+                    </property>
+                    <property name="horizontalScrollBarPolicy">
+                     <enum>Qt::ScrollBarAlwaysOff</enum>
+                    </property>
+                    <property name="editTriggers">
+                     <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+                    <property name="showDropIndicator" stdset="0">
+                     <bool>false</bool>
+                    </property>
+                    <property name="defaultDropAction">
+                     <enum>Qt::IgnoreAction</enum>
+                    </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::NoSelection</enum>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Legendary</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Mythical</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Ultra Beast</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Paradox Form</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Mega Evolution</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Primal Reversion</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Ultra Burst</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Gigantamax</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Alolan Form</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Galarian Form</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Hisuian Form</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Paldean Form</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Cannot Be Traded</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>All Perfect IVs</string>
+                     </property>
+                     <property name="checkState">
+                      <enum>Unchecked</enum>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="0" column="0">
+                 <layout class="QFormLayout" name="formLayout">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_22">
+                    <property name="text">
+                     <string>Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="species_name">
+                    <property name="maxLength">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_29">
+                    <property name="text">
+                     <string>Dex #</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="dex_num">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="sizeIncrement">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string># 000</string>
+                    </property>
+                    <property name="textFormat">
+                     <enum>Qt::PlainText</enum>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_30">
+                    <property name="text">
+                     <string>Category</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLineEdit" name="species_category">
+                    <property name="maxLength">
+                     <number>12</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_31">
+                    <property name="text">
+                     <string>Description</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QPlainTextEdit" name="species_description">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>330</width>
+                      <height>70</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>330</width>
+                      <height>70</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Courier New</family>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                    <property name="tabChangesFocus">
+                     <bool>true</bool>
+                    </property>
+                    <property name="undoRedoEnabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="lineWrapMode">
+                     <enum>QPlainTextEdit::NoWrap</enum>
+                    </property>
+                    <property name="plainText">
+                     <string>Bulbasaur can be seen napping in bright
+sunlight. There is a seed on its back.
+By soaking up the sun's rays, the seed
+grows progressively larger.</string>
+                    </property>
+                    <property name="maximumBlockCount">
+                     <number>0</number>
+                    </property>
+                    <property name="backgroundVisible">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_pokemon_stats">
+               <attribute name="title">
+                <string>Stats</string>
+               </attribute>
+               <layout class="QGridLayout" name="tab_pokemon_stats_grid">
+                <item row="1" column="0">
+                 <layout class="QVBoxLayout" name="verticalLayout_3">
+                  <property name="spacing">
+                   <number>32</number>
+                  </property>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_exp">
+                    <property name="title">
+                     <string>Experience</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_exp">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_20">
+                       <property name="text">
+                        <string>Growth Rate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="exp_growth_rate"/>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_21">
+                       <property name="text">
+                        <string>Exp Yield</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="exp_yield">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>120</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>10</number>
+                       </property>
+                       <property name="maximum">
+                        <number>1000</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_gender">
+                    <property name="title">
+                     <string>Gender/Breeding</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_gender">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="gender_ratio_label">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>90</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>.AppleSystemUIFont</family>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>50% Female</string>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <layout class="QHBoxLayout" name="horizontalLayout_8">
+                       <item>
+                        <widget class="QPushButton" name="gender_ratio_minus1">
+                         <property name="maximumSize">
+                          <size>
+                           <width>15</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>&lt;</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QSlider" name="gender_ratio">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>140</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="maximum">
+                          <number>255</number>
+                         </property>
+                         <property name="singleStep">
+                          <number>1</number>
+                         </property>
+                         <property name="pageStep">
+                          <number>16</number>
+                         </property>
+                         <property name="value">
+                          <number>128</number>
+                         </property>
+                         <property name="tracking">
+                          <bool>true</bool>
+                         </property>
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="invertedAppearance">
+                          <bool>false</bool>
+                         </property>
+                         <property name="invertedControls">
+                          <bool>false</bool>
+                         </property>
+                         <property name="tickPosition">
+                          <enum>QSlider::NoTicks</enum>
+                         </property>
+                         <property name="tickInterval">
+                          <number>0</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="gender_ratio_plus1">
+                         <property name="maximumSize">
+                          <size>
+                           <width>15</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>&gt;</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_18">
+                       <property name="text">
+                        <string>Egg Groups</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <layout class="QHBoxLayout" name="horizontalLayout_4">
+                       <item>
+                        <widget class="QComboBox" name="egg_group_1"/>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="egg_group_2"/>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_27">
+                       <property name="text">
+                        <string>Egg Cycles</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="egg_cycles">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>120</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="suffix">
+                        <string> / 255</string>
+                       </property>
+                       <property name="minimum">
+                        <number>5</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="0" column="1">
+                 <layout class="QVBoxLayout" name="verticalLayout_2">
+                  <property name="spacing">
+                   <number>32</number>
+                  </property>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_types">
+                    <property name="title">
+                     <string>Types</string>
+                    </property>
+                    <layout class="QHBoxLayout" name="horizontalLayout_types">
+                     <property name="topMargin">
+                      <number>12</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>12</number>
+                     </property>
+                     <item>
+                      <widget class="QComboBox" name="type1">
+                       <property name="placeholderText">
+                        <string>Type 1</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QComboBox" name="type2">
+                       <property name="placeholderText">
+                        <string>Type 2</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_abilities">
+                    <property name="title">
+                     <string>Abilities</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_3">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_17">
+                       <property name="text">
+                        <string>1</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="ability1">
+                       <property name="editable">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_50">
+                       <property name="text">
+                        <string>2</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="ability2">
+                       <property name="editable">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_19">
+                       <property name="text">
+                        <string>Hidden</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QComboBox" name="ability_hidden">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="editable">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="1">
+                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                  <property name="spacing">
+                   <number>32</number>
+                  </property>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_heldItems">
+                    <property name="title">
+                     <string>Held Items</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_heldItems">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_23">
+                       <property name="text">
+                        <string>Common</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_24">
+                       <property name="text">
+                        <string>Rare</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="held_item_common">
+                       <property name="editable">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="held_item_rare">
+                       <property name="editable">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_rates">
+                    <property name="title">
+                     <string>Rates</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_rates">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_25">
+                       <property name="text">
+                        <string>Catch Rate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_26">
+                       <property name="toolTip">
+                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The value to which a Pokémon's &lt;span style=&quot; font-weight:700;&quot;&gt;Friendship&lt;/span&gt; is set when caught or received from an event, NPC, or trade.&lt;/p&gt;&lt;p&gt;Most Pokémon have a standard &lt;span style=&quot; font-weight:700;&quot;&gt;Base Friendship&lt;/span&gt; of 70. This was lowered in Gen 8 to 50.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       </property>
+                       <property name="text">
+                        <string>Base Friendship</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QSpinBox" name="catch_rate">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>120</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="suffix">
+                        <string> / 255</string>
+                       </property>
+                       <property name="minimum">
+                        <number>3</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <layout class="QHBoxLayout" name="horizontalLayout_5">
+                       <item>
+                        <widget class="QSpinBox" name="base_friendship">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>80</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QCheckBox" name="checkBox">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Standard</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_28">
+                       <property name="font">
+                        <font>
+                         <pointsize>10</pointsize>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Safari Zone Flee Rate</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="safari_zone_flee_rate">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>120</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="wrapping">
+                        <bool>false</bool>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="buttonSymbols">
+                        <enum>QAbstractSpinBox::UpDownArrows</enum>
+                       </property>
+                       <property name="specialValueText">
+                        <string/>
+                       </property>
+                       <property name="suffix">
+                        <string> / 255</string>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_baseStats">
+                    <property name="title">
+                     <string>Base Stats</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_baseStats">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label">
+                       <property name="text">
+                        <string>HP</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_5">
+                       <property name="text">
+                        <string>ATK</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_7">
+                       <property name="text">
+                        <string>DEF</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="label_9">
+                       <property name="text">
+                        <string>SP.ATK</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="label_10">
+                       <property name="text">
+                        <string>SP.DEF</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="0">
+                      <widget class="QLabel" name="label_11">
+                       <property name="text">
+                        <string>SPEED</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QSpinBox" name="base_hp">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="base_atk">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="base_def">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QSpinBox" name="base_spatk">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QSpinBox" name="base_spdef">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="1">
+                      <widget class="QSpinBox" name="base_speed">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>255</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_evYield">
+                    <property name="title">
+                     <string>EV Yield</string>
+                    </property>
+                    <layout class="QFormLayout" name="formLayout_evYield">
+                     <property name="formAlignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="label_4">
+                       <property name="text">
+                        <string>HP</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="label_6">
+                       <property name="text">
+                        <string>ATK</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="label_8">
+                       <property name="text">
+                        <string>DEF</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="label_12">
+                       <property name="text">
+                        <string>SP.ATK</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="label_13">
+                       <property name="text">
+                        <string>SP.DEF</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="0">
+                      <widget class="QLabel" name="label_14">
+                       <property name="text">
+                        <string>SPEED</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QSpinBox" name="evs_hp">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                       <property name="maximum">
+                        <number>3</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="evs_atk">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="evs_def">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QSpinBox" name="evs_spatk">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QSpinBox" name="evs_spdef">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="1">
+                      <widget class="QSpinBox" name="evs_speed">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>60</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>100</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="alignment">
+                        <set>Qt::AlignCenter</set>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_pokemon_evos">
+               <attribute name="title">
+                <string>Evolutions</string>
+               </attribute>
+               <layout class="QGridLayout" name="tab_pokemon_evos_grid">
+                <item row="0" column="0">
+                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <item>
+                   <widget class="QGroupBox" name="groupBox_evos">
+                    <property name="title">
+                     <string>Evolutions</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_evos">
+                     <item>
+                      <widget class="DeselectableTreeWidget" name="evolutions">
+                       <property name="autoFillBackground">
+                        <bool>false</bool>
+                       </property>
+                       <property name="showDropIndicator" stdset="0">
+                        <bool>false</bool>
+                       </property>
+                       <property name="headerHidden">
+                        <bool>false</bool>
+                       </property>
+                       <attribute name="headerVisible">
+                        <bool>true</bool>
+                       </attribute>
+                       <attribute name="headerCascadingSectionResizes">
+                        <bool>true</bool>
+                       </attribute>
+                       <attribute name="headerMinimumSectionSize">
+                        <number>100</number>
+                       </attribute>
+                       <attribute name="headerDefaultSectionSize">
+                        <number>100</number>
+                       </attribute>
+                       <attribute name="headerHighlightSections">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="headerStretchLastSection">
+                        <bool>true</bool>
+                       </attribute>
+                       <column>
+                        <property name="text">
+                         <string>Species</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>Method</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>Param</string>
+                        </property>
+                       </column>
+                       <item>
+                        <property name="text">
+                         <string>Add New Evolution...</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_7">
+                       <item>
+                        <widget class="QComboBox" name="evo_species">
+                         <property name="enabled">
+                          <bool>false</bool>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>220</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="editable">
+                          <bool>true</bool>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>--Species--</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="evo_method">
+                         <property name="enabled">
+                          <bool>false</bool>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>--Method--</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QComboBox" name="evo_param">
+                         <property name="enabled">
+                          <bool>false</bool>
+                         </property>
+                         <property name="editable">
+                          <bool>false</bool>
+                         </property>
+                         <item>
+                          <property name="text">
+                           <string>--Param--</string>
+                          </property>
+                         </item>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_7">
+                         <property name="enabled">
+                          <bool>false</bool>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>60</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="text">
+                          <string>Add</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_11">
+                       <item>
+                        <widget class="QPushButton" name="evoDeleteButton">
+                         <property name="enabled">
+                          <bool>false</bool>
+                         </property>
+                         <property name="text">
+                          <string>Delete Selected Evolution</string>
+                         </property>
+                         <property name="flat">
+                          <bool>false</bool>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="tab_pokemon_moves">
+               <attribute name="title">
+                <string>Moves</string>
+               </attribute>
+               <layout class="QGridLayout" name="tab_pokemon_moves_grid"/>
+              </widget>
+              <widget class="QWidget" name="tab_pokemon_graphics">
+               <attribute name="title">
+                <string>Graphics</string>
+               </attribute>
+               <layout class="QGridLayout" name="tab_pokemon_graphics_grid">
+                <item row="0" column="0">
+                 <layout class="QFormLayout" name="formLayout_2">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_33">
+                    <property name="text">
+                     <string>Front</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                    <item>
+                     <widget class="QPushButton" name="frontPic_0">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>70</width>
+                        <height>70</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>70</width>
+                        <height>70</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="checkable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="frontPic_1">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>70</width>
+                        <height>70</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>70</width>
+                        <height>70</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="checkable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_34">
+                    <property name="text">
+                     <string>Back</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_10">
+                    <item>
+                     <widget class="QPushButton" name="backPic">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>70</width>
+                        <height>70</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>70</width>
+                        <height>70</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string/>
+                      </property>
+                      <property name="checkable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QTreeWidget" name="tree_pokemon">
+              <property name="minimumSize">
+               <size>
+                <width>180</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>160</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <bold>false</bold>
+                <underline>false</underline>
+                <kerning>true</kerning>
+               </font>
+              </property>
+              <column>
+               <property name="text">
+                <string>Species</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_pokedex">
+           <attribute name="title">
+            <string>Pokédex</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_pokedex_grid">
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Regional Dex</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QListWidget" name="list_pokedex_national">
+              <property name="uniformItemSizes">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>National Dex</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QListWidget" name="list_pokedex_regional">
+                <property name="dragEnabled">
+                 <bool>true</bool>
+                </property>
+                <property name="dragDropMode">
+                 <enum>QAbstractItemView::InternalMove</enum>
+                </property>
+                <property name="defaultDropAction">
+                 <enum>Qt::CopyAction</enum>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::ExtendedSelection</enum>
+                </property>
+                <property name="viewMode">
+                 <enum>QListView::ListMode</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_4">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_5">
+                <property name="text">
+                 <string>Remove</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_items">
+           <attribute name="title">
+            <string>Items</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_items_grid"/>
+          </widget>
+          <widget class="QWidget" name="tab_starters">
+           <attribute name="title">
+            <string>Starters</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_starters_grid">
+            <item row="0" column="2">
+             <widget class="QGroupBox" name="groupBox_starter3">
+              <property name="title">
+               <string>Starter 3</string>
+              </property>
+              <layout class="QFormLayout" name="groupBox_starter3_form">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <property name="rowWrapPolicy">
+                <enum>QFormLayout::DontWrapRows</enum>
+               </property>
+               <property name="verticalSpacing">
+                <number>30</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_37">
+                 <property name="text">
+                  <string>Species</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="starter3_species">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_40">
+                 <property name="text">
+                  <string>Level</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="starter3_level">
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>100</number>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_43">
+                 <property name="text">
+                  <string>Held Item</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="starter3_item">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_46">
+                 <property name="text">
+                  <string>Custom Move</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="starter3_move"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_49">
+                 <property name="text">
+                  <string>Ability</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QComboBox" name="starter3_ability_num">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="starter3_ability_custom">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Custom</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QGroupBox" name="groupBox_starter2">
+              <property name="title">
+               <string>Starter 2</string>
+              </property>
+              <layout class="QFormLayout" name="groupBox_starter2_form">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <property name="rowWrapPolicy">
+                <enum>QFormLayout::DontWrapRows</enum>
+               </property>
+               <property name="verticalSpacing">
+                <number>30</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>Species</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="starter2_species">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_39">
+                 <property name="text">
+                  <string>Level</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="starter2_level">
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>100</number>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_42">
+                 <property name="text">
+                  <string>Held Item</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="starter2_item">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_45">
+                 <property name="text">
+                  <string>Custom Move</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="starter2_move"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_48">
+                 <property name="text">
+                  <string>Ability</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                 <item>
+                  <widget class="QComboBox" name="starter2_ability_num">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="starter2_ability_custom">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Custom</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox_starter1">
+              <property name="title">
+               <string>Starter 1</string>
+              </property>
+              <layout class="QFormLayout" name="groupBox_starter1_form">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <property name="rowWrapPolicy">
+                <enum>QFormLayout::DontWrapRows</enum>
+               </property>
+               <property name="verticalSpacing">
+                <number>30</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>Species</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="starter1_species">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_38">
+                 <property name="text">
+                  <string>Level</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QSpinBox" name="starter1_level">
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>100</number>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_41">
+                 <property name="text">
+                  <string>Held Item</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="starter1_item">
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_44">
+                 <property name="text">
+                  <string>Custom Move</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="starter1_move"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_47">
+                 <property name="text">
+                  <string>Ability</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <item>
+                  <widget class="QComboBox" name="starter1_ability_num">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="starter1_ability_custom">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Custom</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_trainers">
+           <attribute name="title">
+            <string>Trainers</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_trainers_grid"/>
+          </widget>
+          <widget class="QWidget" name="tab_ui">
+           <attribute name="title">
+            <string>UI</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_ui_grid"/>
+          </widget>
+          <widget class="QWidget" name="tab_config">
+           <attribute name="title">
+            <string>Config</string>
+           </attribute>
+           <layout class="QGridLayout" name="tab_config_grid"/>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Output</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <item>
+            <widget class="QTextBrowser" name="logOutput">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>986</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_Projects">
+     <property name="title">
+      <string>Recent Projects</string>
+     </property>
+    </widget>
+    <addaction name="actionNew_Project"/>
+    <addaction name="action_Open"/>
+    <addaction name="menuRecent_Projects"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpen_Plugins_Folder"/>
+   </widget>
+   <widget class="QMenu" name="menuProject">
+    <property name="title">
+     <string>Project</string>
+    </property>
+    <addaction name="actionExport_to_ROM"/>
+    <addaction name="actionExport_to_Patch_bps"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionOpen_in_Terminal"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuProject"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+  </widget>
+  <action name="action_Open">
+   <property name="text">
+    <string>&amp;Open Project...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionNew_Project">
+   <property name="text">
+    <string>New Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionClear">
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionExport_to_ROM">
+   <property name="text">
+    <string>Export to ROM</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionExport_to_Patch_bps">
+   <property name="text">
+    <string>Export to Patch file (.bps)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+E</string>
+   </property>
+  </action>
+  <action name="actionOpen_in_Terminal">
+   <property name="text">
+    <string>Open in Docker Terminal</string>
+   </property>
+   <property name="toolTip">
+    <string>Open in Docker Terminal</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionOpen_Plugins_Folder">
+   <property name="text">
+    <string>Open Plugins Folder</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>DeselectableTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header>ui/custom_widgets/deselectabletreewidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionSave</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionExport_to_ROM</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_action()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen_in_Terminal</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_action()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionNew_Project</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_action()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gender_ratio</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>554</x>
+     <y>536</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gender_ratio_plus1</sender>
+   <signal>pressed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_gender_ratio_plus1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>541</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tree_pokemon</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_tree_pokemon()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>114</x>
+     <y>336</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gender_ratio_minus1</sender>
+   <signal>pressed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_gender_ratio_minus1()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>398</x>
+     <y>541</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mainTabs</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update_main_tabs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>479</x>
+     <y>330</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>evolutions</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>577</x>
+     <y>308</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>358</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>open_add_feature_window()</slot>
+  <slot>update_action()</slot>
+  <slot>update_save()</slot>
+  <slot>update_tree_pokemon()</slot>
+  <slot>update_gender_ratio_minus1()</slot>
+  <slot>update_gender_ratio_plus1()</slot>
+  <slot>update_evolutions()</slot>
+  <slot>update_main_tabs()</slot>
+ </slots>
+</ui>

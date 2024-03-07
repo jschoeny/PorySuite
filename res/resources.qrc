@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/SourceCodePro-Regular.ttf</file>
+        <file>icons/info-circle.svg</file>
+        <file>icons/info-circle-solid.svg</file>
+        <file>images/PorySuite.gif</file>
+    </qresource>
+</RCC>

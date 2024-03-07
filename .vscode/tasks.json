@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile_PyQt_UI",
+            "type": "shell",
+            "command": "./tools/convert_ui_to_py.sh",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Compile_PyQt_QRC",
+            "type": "shell",
+            "command": "./tools/convert_qrc_to_py.sh",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "pyqtMakeScripts",
+            "dependsOn": [
+                "Compile_PyQt_UI",
+                "Compile_PyQt_QRC"
+            ]
+        }
+    ]
+}
