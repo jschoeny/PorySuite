@@ -40,4 +40,9 @@ Plugins in PorySuite are used to choose which decomp repo you want to use. The p
 
 Check out the built-in [Pokeemerald Expansion plugin](plugins/pokeemerald_expansion/) for an example of how a plugin should be implemented.
 
+For development purposes, you can choose to only load plugins from the local source [plugins](plugins) folder:
+```bash
+python main.py debug
+```
+
 **NOTE: Because this project is still in alpha, not all data will be able to be modified in the UI.**
