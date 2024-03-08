@@ -30,7 +30,12 @@ Contributions are more than welcome! If you have an idea for a feature or a bug 
     ```bash
     pip install -r requirements.txt
     ```
-3. Run the project
+3. Run the following scripts to convert .qrc and .ui files to python files
+   ```bash
+   tools/convert_qrc_to_py.sh
+   tools/convert_ui_to_py.sh
+   ```
+5. Run the project
     ```bash
     python app.py
     ```
