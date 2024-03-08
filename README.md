@@ -32,7 +32,7 @@ Contributions are more than welcome! If you have an idea for a feature or a bug 
     ```
 3. Run the project
     ```bash
-    python main.py
+    python app.py
     ```
 
 ### Plugins
@@ -42,7 +42,7 @@ Check out the built-in [Pokeemerald Expansion plugin](plugins/pokeemerald_expans
 
 For development purposes, you can choose to only load plugins from the local source [plugins](plugins) folder:
 ```bash
-python main.py debug
+python app.py debug
 ```
 
 **NOTE: Because this project is still in alpha, not all data will be able to be modified in the UI.**
