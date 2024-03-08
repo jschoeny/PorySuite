@@ -25,6 +25,7 @@ Contributions are more than welcome! If you have an idea for a feature or a bug 
 - [Python 3.12+](https://www.python.org/downloads/)
 
 ### Setup
+_**Windows users:** Unlike most other decomp tools, this should not be run in WSL. Clone and run this repository in Windows._
 1. Create Python virtual environment
 2. Install dependencies
     ```bash
@@ -32,10 +33,12 @@ Contributions are more than welcome! If you have an idea for a feature or a bug 
     ```
 3. Run the following scripts to convert .qrc and .ui files to python files
    ```bash
-   tools/convert_qrc_to_py.sh
-   tools/convert_ui_to_py.sh
+   ./tools/convert_qrc_to_py.sh
+   ./tools/convert_ui_to_py.sh
    ```
-5. Run the project
+   _A VSCode task is also available in this repo to run these scripts before running the project._
+
+4. Run the project
     ```bash
     python app.py
     ```
