@@ -26,17 +26,38 @@ Contributions are more than welcome! If you have an idea for a feature or a bug 
 
 ### Setup
 _**Windows users:** Unlike most other decomp tools, this should not be run in WSL. Clone and run this repository in Windows._
-1. Create Python virtual environment
-2. Install dependencies
+1. **Create Python virtual environment**
+
+    On MacOS/Linux:
+    ```bash
+    python -m venv venv
+    ./venv/bin/activate
+    ```
+    On Windows:
+    ```bash
+    python -m venv venv
+    .\venv\Scripts\activate.bat
+    ```
+
+2. **Install dependencies**
+
     ```bash
     pip install -r requirements.txt
     ```
-3. Run the following scripts to convert .qrc and .ui files to python files
-   ```bash
-   ./tools/convert_qrc_to_py.sh
-   ./tools/convert_ui_to_py.sh
-   ```
-   _A VSCode task is also available in this repo to run these scripts before running the project._
+
+3. **Run the following scripts to convert .qrc and .ui files to python files**
+
+    On MacOS/Linux:
+    ```bash
+    ./tools/convert_qrc_to_py.sh
+    ./tools/convert_ui_to_py.sh
+    ```
+    On Windows:
+    ```bash
+    bash tools/convert_qrc_to_py.sh
+    bash tools/convert_ui_to_py.sh
+    ```
+    _A VSCode task is also available in this repo to run these scripts before running the project._
 
 4. Run the project
     ```bash
