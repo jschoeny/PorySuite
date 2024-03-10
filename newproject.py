@@ -81,7 +81,7 @@ class NewProject(QDialog):
             file_dialog.setFileMode(QFileDialog.FileMode.Directory)
             file_dialog.setOption(QFileDialog.Option.ShowDirsOnly)
             file_dialog.exec()
-            self.base_project_dir = file_dialog.selectedFiles()[0]
+            self.base_project_dir = os.path.normpath(file_dialog.selectedFiles()[0])
             project_dir = os.path.join(self.base_project_dir, format_project_name(self.ui.projectName.text()))
             self.ui.projectDir.setText(self.base_project_dir)
             self.ui.projectDirFull.setText(project_dir)
@@ -100,12 +100,13 @@ class NewProject(QDialog):
             file_dialog.setFileMode(QFileDialog.FileMode.Directory)
             file_dialog.setOption(QFileDialog.Option.ShowDirsOnly)
             file_dialog.exec()
-            project_dir = file_dialog.selectedFiles()[0]
-            if not os.path.exists(f"{project_dir}/project.json"):
+            project_dir = os.path.normpath(file_dialog.selectedFiles()[0])
+            project_json_path = os.path.join(project_dir, "project.json")
+            if not os.path.exists(project_json_path):
                 self.ui.errorLabel.setText("This is not a valid project directory.")
                 self.ui.errorLabel.setVisible(True)
                 return
-            with open(f"{project_dir}/project.json", "r") as f:
+            with open(project_json_path, "r") as f:
                 self.project_info = json.load(f)
             if "project_base" not in self.project_info or "name" not in self.project_info \
                     or "version" not in self.project_info or "project_name" not in self.project_info:
@@ -282,7 +283,7 @@ class NewProject(QDialog):
         try:
             d = DockerUtil(self.project_info)
 
-            project_name = self.project_dir.split("/")[-1]
+            project_name = self.project_info["project_name"]
 
             d.try_get_nproc_from_container()
 
@@ -365,8 +366,8 @@ class NewProject(QDialog):
         projects["projects"].insert(0, data_dir_project_info)
         with open(projects_file, "w") as f:
             json.dump(projects, f)
-        os.makedirs(f"{self.project_dir}/data", exist_ok=True)
-        with open(f"{self.project_dir}/project.json", "w") as f:
+        os.makedirs(os.path.join(self.project_dir, "data"), exist_ok=True)
+        with open(os.path.join(self.project_dir, "project.json"), "w") as f:
             json.dump(self.project_info, f)
         self.project_info = data_dir_project_info | self.project_info
 

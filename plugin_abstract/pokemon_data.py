@@ -25,7 +25,7 @@ class ReadSourceFile(object):
     """
 
     def __init__(self, project_info: dict, file_path: str):
-        self.file_path = os.path.join(project_info["dir"], "source", file_path)
+        self.file_path = os.path.join(project_info["dir"], "source", os.path.normpath(file_path))
 
     def __enter__(self):
         self.file = open(self.file_path, "r")
@@ -52,7 +52,7 @@ class WriteSourceFile(object):
     """
 
     def __init__(self, project_info: dict, file_path: str):
-        self.file_path = os.path.join(project_info["dir"], "source", file_path)
+        self.file_path = os.path.join(project_info["dir"], "source", os.path.normpath(file_path))
 
     def __enter__(self):
         self.file = open(self.file_path, "w")
@@ -116,6 +116,20 @@ class AbstractPokemonData(ABC):
             except json.decoder.JSONDecodeError:
                 pass
         return False
+    
+    def __get_file_paths(self, file_key: str) -> tuple[str, str]:
+        """
+        Gets the original and backup file paths for a given file key.
+        
+        Args:
+            file_key (str): The key of the file in the FILES dictionary.
+            
+        Returns:
+            tuple[str, str]: A tuple containing the original and backup file paths respectively.
+        """
+        original = os.path.join(self.project_info["dir"], "source", os.path.normpath(self.FILES[file_key]["original"]))
+        backup = os.path.join(self.project_info["dir"], "source", os.path.normpath(self.FILES[file_key]["backup"]))
+        return original, backup
 
     def instantiate_extractor(self, func: callable):
         """
@@ -203,8 +217,7 @@ class AbstractPokemonData(ABC):
         parse_needed = self.pending_changes
 
         for file in self.FILES:
-            original = os.path.join(self.project_info["dir"], "source", self.FILES[file]["original"])
-            backup = os.path.join(self.project_info["dir"], "source", self.FILES[file]["backup"])
+            original, backup = self.__get_file_paths(file)
             if not os.path.isfile(backup) or not os.path.isfile(original):
                 parse_needed = True
 
@@ -241,8 +254,7 @@ class AbstractPokemonData(ABC):
             self.save()
 
         for file in self.FILES:
-            original = os.path.join(self.project_info["dir"], "source", self.FILES[file]["original"])
-            backup = os.path.join(self.project_info["dir"], "source", self.FILES[file]["backup"])
+            original, backup = self.__get_file_paths(file)
             if not os.path.isfile(backup):
                 shutil.copyfile(original, backup)
 
@@ -250,8 +262,7 @@ class AbstractPokemonData(ABC):
 
     def restore_source_code(self):
         for file in self.FILES:
-            original = os.path.join(self.project_info["dir"], "source", self.FILES[file]["original"])
-            backup = os.path.join(self.project_info["dir"], "source", self.FILES[file]["backup"])
+            original, backup = self.__get_file_paths(file)
             if os.path.isfile(backup):
                 shutil.copyfile(backup, original)
                 os.remove(backup)

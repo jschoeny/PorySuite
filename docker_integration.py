@@ -205,7 +205,7 @@ class DockerUtil:
     def __init__(self, project_info: dict):
         self.project_info = project_info
         self.project_dir = project_info["dir"]
-        self.project_dir_name = self.project_dir.split("/")[-1]
+        self.project_dir_name = project_info["project_name"]
 
     def run_docker_container_command(self, args, wdir=None, logger: Signal = None):
         """
@@ -310,7 +310,7 @@ class DockerUtil:
         Args:
             logger (Signal, optional): Logger object for logging messages. Defaults to None.
         """
-        os.makedirs(f"{self.project_dir}/build", exist_ok=True)
+        os.makedirs(os.path.join(self.project_dir, "build"), exist_ok=True)
         thread = threading.Thread(target=self.try_export_rom, args=(logger,))
         thread.start()
 
@@ -354,8 +354,8 @@ class DockerUtil:
         # Emit log signal to indicate progress
         logger.emit("90")
 
-        source_rom_path = f"{self.project_dir}/source/{rom_name}"
-        build_rom_path = f"{self.project_dir}/build/{rom_name}"
+        source_rom_path = os.path.join(self.project_dir, "source", rom_name)
+        build_rom_path = os.path.join(self.project_dir, "build", rom_name)
 
         # Copy the built ROM to the build directory
         shutil.copyfile(source_rom_path, build_rom_path)

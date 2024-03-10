@@ -162,7 +162,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
 
     def extract_data(self) -> dict:
         # Preprocess files
-        os.makedirs(f"{self.project_dir}/processed/src/data/pokemon", exist_ok=True)
+        os.makedirs(os.path.join(self.project_dir, "processed", "src", "data", "pokemon"), exist_ok=True)
         self.docker_util.preprocess_c_file(
             f"src/data/pokemon/species_info.h",
             f"../processed/src/data/pokemon/species_info.h",
@@ -170,7 +170,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         )
 
         # Parse Species dex numbers
-        with open(f'{self.project_dir}/source/include/constants/pokedex.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "include", "constants", "pokedex.h"), 'r') as file:
             lines = file.readlines()
 
         dex_num = 1
@@ -203,7 +203,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                 pokemon_species["SPECIES_" + species] = species_data
 
         # Parse species info
-        with open(f'{self.project_dir}/processed/src/data/pokemon/species_info.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "processed", "src", "data", "pokemon", "species_info.h"), 'r') as file:
             lines = file.readlines()
 
         current_species = None
@@ -295,7 +295,7 @@ class SpeciesGraphicsDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        with open(f'{self.project_dir}/source/src/data/graphics/pokemon.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "src", "data", "graphics", "pokemon.h"), 'r') as file:
             lines = file.readlines()
 
         species_graphics = {}
@@ -321,7 +321,7 @@ class AbilitiesDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        with open(f'{self.project_dir}/source/include/constants/abilities.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "include", "constants", "abilities.h"), 'r') as file:
             lines = file.readlines()
 
         abilities = {}
@@ -344,7 +344,7 @@ class ItemsDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        with open(f'{self.project_dir}/source/src/data/items.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "src", "data", "items.h"), 'r') as file:
             lines = file.readlines()
 
         items = {}
@@ -400,7 +400,7 @@ class PokemonConstantsExtractor(PokemonDataExtractor):
         }
 
     def extract_data(self) -> dict:
-        with open(f'{self.project_dir}/source/include/constants/pokemon.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "include", "constants", "pokemon.h"), 'r') as file:
             lines = file.readlines()
 
         pokemon_types = {}
@@ -492,7 +492,7 @@ class StartersDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> list:
-        with open(f'{self.project_dir}/source/src/starter_choose.c', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "src", "starter_choose.c"), 'r') as file:
             lines = file.readlines()
 
         starters = []
@@ -560,7 +560,7 @@ class MovesDataExtractor(PokemonDataExtractor):
         return val
 
     def extract_data(self) -> dict:
-        with open(f'{self.project_dir}/source/include/constants/moves.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "include", "constants", "moves.h"), 'r') as file:
             lines = file.readlines()
 
         for line in lines:
@@ -609,13 +609,13 @@ class MovesDataExtractor(PokemonDataExtractor):
                 self.moves_data["constants"][constant] = self.__parse_macro(
                     self.moves_data["constants"][constant].strip())
 
-        os.makedirs(f"{self.project_dir}/processed/src/data/text", exist_ok=True)
+        os.makedirs(os.path.join(self.project_dir, "processed", "src", "data", "text"), exist_ok=True)
         self.docker_util.preprocess_c_file(
             "src/data/text/move_descriptions.h",
             f"../processed/src/data/text/move_descriptions.h",
             ["include/config/battle.h"]
         )
-        with open(f'{self.project_dir}/processed/src/data/text/move_descriptions.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "processed", "src", "data", "text", "move_descriptions.h"), 'r') as file:
             lines = file.readlines()
 
         current_move = None
@@ -638,7 +638,7 @@ class MovesDataExtractor(PokemonDataExtractor):
                 self.moves_data["moves"][move]["description_var"] = match.group(2).strip()
                 continue
 
-        with open(f'{self.project_dir}/source/src/data/battle_moves.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "source", "src", "data", "battle_moves.h"), 'r') as file:
             lines = file.readlines()
 
         current_move = None
@@ -678,14 +678,14 @@ class PokedexDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        os.makedirs(f"{self.project_dir}/processed/include/constants", exist_ok=True)
+        os.makedirs(os.path.join(self.project_dir, "processed", "include", "constants"), exist_ok=True)
         self.docker_util.preprocess_c_file(
             "include/constants/pokedex.h",
             "../processed/include/constants/pokedex.h",
             ["include/config/species_enabled.h"]
         )
 
-        with open(f'{self.project_dir}/processed/include/constants/pokedex.h', 'r') as file:
+        with open(os.path.join(self.project_dir, "processed", "include", "constants", "pokedex.h"), 'r') as file:
             lines = file.readlines()
 
         pokedex_entries = {
