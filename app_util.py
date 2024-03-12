@@ -16,7 +16,7 @@ def reveal_directory(directory, is_file=False):
     if sys.platform == 'win32':  # Windows
         if is_file:
             # Using explorer and /select flag to open the folder and select the file
-            subprocess.run(['explorer', '/select,', os.path.normpath(directory)], check=True)
+            subprocess.Popen(fr'explorer /select,"{os.path.normpath(directory)}"')
         else:
             # Using explorer to open the folder
             subprocess.run(['explorer', os.path.normpath(directory)], check=True)

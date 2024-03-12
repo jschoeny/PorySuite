@@ -19,7 +19,7 @@ class Exporting(QDialog):
 
     def log(self, message):
         if message.startswith("Exported ROM:"):
-            rom_dir = message.split(":")[1].strip()
+            rom_dir = message[len("Exported ROM:"):].strip()
             reveal_directory(rom_dir, is_file=True)
             self.close()
         elif message.startswith("cd build"):

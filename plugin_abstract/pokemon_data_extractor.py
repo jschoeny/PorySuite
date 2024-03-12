@@ -51,12 +51,10 @@ class PokemonDataExtractor(ABC):
             return False
         json_file_mod_time = os.path.getmtime(json_file)
         for file in self.FILES:
-            backup_file = os.path.join(self.project_dir, "source", self.FILES[file]["backup"])
-            if not os.path.isfile(backup_file):
+            if not self.docker_util.file_exists(f"{self.FILES[file]['backup']}"):
                 return False
-            file_path = os.path.join(self.project_dir, "source", self.FILES[file]["original"])
-            if os.path.isfile(file_path):
-                file_mod_time = os.path.getmtime(file_path)
+            file_mod_time = self.docker_util.getmtime(f"{self.FILES[file]['original']}")
+            if file_mod_time is not None:
                 if file_mod_time > json_file_mod_time:
                     return False
         return True
