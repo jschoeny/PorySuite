@@ -343,14 +343,14 @@ class DockerUtil:
         if sys.platform == "win32":
             dest_path = os.path.dirname(dest)
             dest_file = os.path.basename(dest)
+            fileobj.seek(0)
 
             tar_stream = io.BytesIO()
             tar = tarfile.TarFile(fileobj=tar_stream, mode='w')
             tar_info = tarfile.TarInfo(dest_file.lstrip("/"))
-            tar_info.size = fileobj.tell()
-            tar_info.mtime = time.time()
-            fileobj.seek(0)
             bytes_fileobj = io.BytesIO(fileobj.read().encode("utf-8"))
+            tar_info.size = len(bytes_fileobj.getbuffer())
+            tar_info.mtime = time.time()
             tar.addfile(tar_info, bytes_fileobj)
 
             # Write the tar file to a temporary location
@@ -360,8 +360,8 @@ class DockerUtil:
             temp_file = os.path.join(temp_path, f"{dest_file}.tar")
             with open(temp_file, "wb") as f:
                 f.write(tar_stream.getvalue())
-
-            container = self.run_docker_container_command(["echo", "writing"], destroy=False, stdin_open=True)
+            tar_stream.seek(0)
+            container = self.run_docker_container_command(None, destroy=False, stdin_open=True)
             success = container.put_archive(dest_path, tar_stream)
             container.remove(force=True)
         else:
