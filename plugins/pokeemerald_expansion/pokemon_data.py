@@ -529,11 +529,14 @@ class PokemonStarters(pokemon_data.PokemonStarters):
         with ReadSourceFile(self.project_info, self.get_file_path("BATTLE_SETUP_C", True)) as f:
             inside_give_starter_function = False
             for line in f:
-                if line.startswith("static void CB2_GiveStarter(void)"):
+                if line.strip() == "static void CB2_GiveStarter(void)":
                     inside_give_starter_function = True
                     battle_setup_lines.append(line)
                     continue
                 if inside_give_starter_function:
+                    if line.startswith("{"):
+                        battle_setup_lines.append(line)
+                        continue
                     if line.startswith("}"):
                         inside_give_starter_function = False
                         battle_setup_lines.append(line)
@@ -541,8 +544,12 @@ class PokemonStarters(pokemon_data.PokemonStarters):
                     elif "u16 starterMon" in line:
                         if any(starter["ability_num"] != -1 for starter in self.data):
                             line += "\n    u16 abilityNum;\n"
+                        battle_setup_lines.append(line)
                     elif "ScriptGiveMon(starterMon" in line:
                         line = self.__generate_switch_case_code()
+                        battle_setup_lines.append(line)
+                    else:
+                        battle_setup_lines.append(line)
                 if not inside_give_starter_function:
                     battle_setup_lines.append(line)
 
