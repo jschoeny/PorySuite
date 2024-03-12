@@ -5,10 +5,14 @@
             "label": "Compile_PyQt_UI",
             "type": "shell",
             "command": "./tools/convert_ui_to_py.sh",
+            "windows": {
+                "command": "tools\\convert_ui_to_py.bat"
+            },
             "problemMatcher": [],
             "presentation": {
-                "reveal": "always",
-                "panel": "new"
+                "reveal": "silent",
+                "panel": "new",
+                "close": true
             },
             "group": {
                 "kind": "build",
@@ -19,10 +23,14 @@
             "label": "Compile_PyQt_QRC",
             "type": "shell",
             "command": "./tools/convert_qrc_to_py.sh",
+            "windows": {
+                "command": "tools\\convert_qrc_to_py.bat"
+            },
             "problemMatcher": [],
             "presentation": {
-                "reveal": "always",
-                "panel": "new"
+                "reveal": "silent",
+                "panel": "new",
+                "close": true
             },
             "group": {
                 "kind": "build",
