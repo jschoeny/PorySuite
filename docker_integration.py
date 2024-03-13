@@ -364,7 +364,7 @@ class DockerUtil:
             success = container.put_archive(dest_path, tar_stream)
             container.remove(force=True)
         else:
-            shutil.copyfile(source, dest)
+            print("Not implemented for non-Windows platforms.")
 
     def makedirs(self, path):
         if sys.platform == "win32":
