@@ -38,7 +38,7 @@ class PokemonDataExtractor(ABC):
 
         :returns: The path of the data file.
         """
-        return f"{self.project_dir}/data/{self.DATA_FILE}"
+        return os.path.join(self.project_dir, "data", self.DATA_FILE)
 
     def check_json_newer_than_files(self) -> bool:
         """
@@ -51,11 +51,10 @@ class PokemonDataExtractor(ABC):
             return False
         json_file_mod_time = os.path.getmtime(json_file)
         for file in self.FILES:
-            if not os.path.isfile(f"{self.project_dir}/source/{self.FILES[file]['backup']}"):
+            if not self.docker_util.file_exists(f"{self.FILES[file]['backup']}"):
                 return False
-            file_path = f"{self.project_dir}/source/{self.FILES[file]['original']}"
-            if os.path.isfile(file_path):
-                file_mod_time = os.path.getmtime(file_path)
+            file_mod_time = self.docker_util.getmtime(f"{self.FILES[file]['original']}")
+            if file_mod_time is not None:
                 if file_mod_time > json_file_mod_time:
                     return False
         return True

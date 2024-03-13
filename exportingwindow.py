@@ -19,8 +19,11 @@ class Exporting(QDialog):
 
     def log(self, message):
         if message.startswith("Exported ROM:"):
-            rom_dir = message.split(":")[1].strip()
-            reveal_directory(rom_dir, is_file=True)
+            rom_dir = message[len("Exported ROM:"):].strip()
+            try:
+                reveal_directory(rom_dir, is_file=True)
+            except FileNotFoundError:
+                self.parent.log(f"Could not find file: {rom_dir}")
             self.close()
         elif message.startswith("cd build"):
             self.progress = 80

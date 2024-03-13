@@ -4,6 +4,10 @@ import time
 import threading
 import shutil
 import subprocess
+import datetime
+import tarfile
+import io
+from pathlib import PurePosixPath, PureWindowsPath
 
 import platformdirs
 import docker
@@ -205,9 +209,9 @@ class DockerUtil:
     def __init__(self, project_info: dict):
         self.project_info = project_info
         self.project_dir = project_info["dir"]
-        self.project_dir_name = self.project_dir.split("/")[-1]
+        self.project_dir_name = project_info["project_name"]
 
-    def run_docker_container_command(self, args, wdir=None, logger: Signal = None):
+    def run_docker_container_command(self, args, wdir=None, logger: Signal = None, destroy=True, stdin_open=False):
         """
         Runs a Docker container with the specified command and options.
 
@@ -215,28 +219,39 @@ class DockerUtil:
             args (list): The command and arguments to run inside the container.
             wdir (str, optional): The working directory inside the container. Defaults to None.
             logger (Signal, optional): The logger object to log container output. Defaults to None.
+
+        Returns:
+            Container object
         """
         client = docker.from_env()
+        volumes = {
+            self.project_dir: {
+                'bind': f'/root/projects/{self.project_dir_name}', 'mode': 'rw'
+            }
+        }
+        if sys.platform == "win32":
+            volumes = [f'porysuite_{self.project_dir_name}:/root/projects/{self.project_dir_name}']
 
         try:
             container = client.containers.run("porysuiteimage",
                                               args,
                                               working_dir=wdir,
                                               detach=True,
-                                              auto_remove=True,
-                                              remove=True,
+                                              auto_remove=destroy,
+                                              remove=destroy,
+                                              stdin_open=stdin_open,
                                               network_mode="host",
                                               pid_mode="host",
                                               uts_mode="host",
-                                              volumes={
-                                                  self.project_dir: {
-                                                      'bind': f'/root/projects/{self.project_dir_name}', 'mode': 'rw'
-                                                  }
-                                              })
+                                              volumes=volumes)
+            if stdin_open:
+                return container
             if logger is not None:
                 for line in container.logs(stream=True):
                     logger.emit(line.decode("utf-8").strip('\r\n').strip('\n'))
+                    print(line.decode("utf-8").strip('\r\n').strip('\n'))
             container.wait()
+            return container
         except Exception as e:
             print(e)
 
@@ -268,13 +283,12 @@ class DockerUtil:
             print(e)
             return None
 
-    def preprocess_c_file(self, input_file: str, output_file: str, includes: list = None):
+    def preprocess_c_file(self, input_file: str, includes: list = None):
         """
-        Preprocesses a C file using gcc and saves the output to a specified file.
+        Preprocesses a C file using gcc and saves the output in the 'processed' directory of the project.
 
         Args:
             input_file (str): The path to the input C file.
-            output_file (str): The path to save the preprocessed output.
             includes (list, optional): A list of additional include files to be used during preprocessing.
         """
         includes_args = []
@@ -283,6 +297,8 @@ class DockerUtil:
             for include in includes:
                 includes_args.append("-include")
                 includes_args.append(include)
+
+        output_file = f"../processed/{input_file}"
 
         args = [
             "gcc",
@@ -295,6 +311,7 @@ class DockerUtil:
         ]
 
         try:
+            self.makedirs(f"processed/{os.path.dirname(input_file)}")
             self.run_docker_container_command(
                 wdir=f"/root/projects/{self.project_dir_name}/source",
                 args=args,
@@ -303,6 +320,109 @@ class DockerUtil:
         except Exception as e:
             print(f"An error occurred while preprocessing: {e}")
 
+    def copy_file_to_host(self, source: str, dest: str):
+        if sys.platform == "win32":
+            source_path = f"/root/projects/{self.project_dir_name}/{source}"
+            temp_file = io.BytesIO()
+            container = self.run_docker_container_command(["echo", "copying"], destroy=False)
+            bits, stat = container.get_archive(source_path)
+            for chunk in bits:
+                temp_file.write(chunk)
+            dest_path = os.path.dirname(os.path.join(self.project_dir, dest))
+            temp_file.seek(0)
+            with tarfile.open(fileobj=temp_file) as f:
+                f.extractall(dest_path)
+            container.remove(force=True)
+        else:
+            source_path = os.path.join(self.project_dir, source)
+            dest_path = os.path.join(self.project_dir, dest)
+            shutil.copyfile(source_path, dest_path)
+
+    def write_file_to_volume(self, fileobj: io.StringIO, dest: str):
+        if sys.platform == "win32":
+            dest_path = os.path.dirname(dest)
+            dest_file = os.path.basename(dest)
+            fileobj.seek(0)
+
+            tar_stream = io.BytesIO()
+            tar = tarfile.TarFile(fileobj=tar_stream, mode='w')
+            tar_info = tarfile.TarInfo(dest_file.lstrip("/"))
+            bytes_fileobj = io.BytesIO(fileobj.read().encode("utf-8"))
+            tar_info.size = len(bytes_fileobj.getbuffer())
+            tar_info.mtime = time.time()
+            tar.addfile(tar_info, bytes_fileobj)
+
+            # Write the tar file to a temporary location
+            temp_path = os.path.join(self.project_dir, "temp")
+            os.makedirs(temp_path, exist_ok=True)
+            os.system(f'attrib +h "{temp_path}"')
+            temp_file = os.path.join(temp_path, f"{dest_file}.tar")
+            with open(temp_file, "wb") as f:
+                f.write(tar_stream.getvalue())
+            tar_stream.seek(0)
+            container = self.run_docker_container_command(None, destroy=False, stdin_open=True)
+            success = container.put_archive(dest_path, tar_stream)
+            container.remove(force=True)
+        else:
+            print("Not implemented for non-Windows platforms.")
+
+    def makedirs(self, path):
+        if sys.platform == "win32":
+            self.run_docker_container_command(
+                ["mkdir", "-p", path],
+                wdir=f"/root/projects/{self.project_dir_name}",
+            )
+        else:
+            os.makedirs(os.path.join(self.project_dir, path), exist_ok=True)
+
+    def copyfile(self, source, dest):
+        if sys.platform == "win32":
+            self.run_docker_container_command(
+                ["cp", source, dest],
+                wdir=f"/root/projects/{self.project_dir_name}",
+            )
+        else:
+            shutil.copyfile(os.path.join(self.project_dir, source), os.path.join(self.project_dir, dest))
+
+    def removefile(self, path):
+        if sys.platform == "win32":
+            self.run_docker_container_command(
+                ["rm", path],
+                wdir=f"/root/projects/{self.project_dir_name}",
+            )
+        else:
+            os.remove(os.path.join(self.project_dir, path))
+
+    def file_exists(self, path):
+        if sys.platform == "win32":
+            container = self.run_docker_container_command(
+                ["test", "-e", f"/root/projects/{self.project_dir_name}/{path}"],
+                destroy=False
+            )
+            response = container.wait()
+            exists = (response['StatusCode'] == 0)
+            container.remove(force=True)
+            return exists
+        else:
+            return os.path.exists(os.path.join(self.project_dir, path))
+        
+    def getmtime(self, path):
+        if sys.platform == "win32":
+            container = self.run_docker_container_command(None, destroy=False, stdin_open=True)
+            exit_code, output = container.exec_run(f"stat -c %Y /root/projects/{self.project_dir_name}/{path}")
+            if exit_code != 0:
+                print(f"An error occurred while getting the modification time of {path}.")
+                print(output.decode("utf-8"))
+                container.remove(force=True)
+                return None
+            mtime = output.decode("utf-8").strip()
+            container.remove(force=True)
+            return int(mtime)
+        else:
+            if not os.path.exists(os.path.join(self.project_dir, path)):
+                return None
+            return os.path.getmtime(os.path.join(self.project_dir, path))
+
     def export_rom(self, logger: Signal = None):
         """
         Export the ROM for the given project.
@@ -310,7 +430,7 @@ class DockerUtil:
         Args:
             logger (Signal, optional): Logger object for logging messages. Defaults to None.
         """
-        os.makedirs(f"{self.project_dir}/build", exist_ok=True)
+        os.makedirs(os.path.join(self.project_dir, "build"), exist_ok=True)
         thread = threading.Thread(target=self.try_export_rom, args=(logger,))
         thread.start()
 
@@ -354,14 +474,17 @@ class DockerUtil:
         # Emit log signal to indicate progress
         logger.emit("90")
 
-        source_rom_path = f"{self.project_dir}/source/{rom_name}"
-        build_rom_path = f"{self.project_dir}/build/{rom_name}"
-
         # Copy the built ROM to the build directory
-        shutil.copyfile(source_rom_path, build_rom_path)
+        if sys.platform == "win32":
+            source_rom_path = f"source/{rom_name}"
+        else:
+            source_rom_path = os.path.join("source", rom_name)
+        build_rom_path = os.path.join("build", rom_name)
+        self.copy_file_to_host(source_rom_path, build_rom_path)
+        self.removefile(source_rom_path)
 
         # Emit log signal to indicate completion and the path of the exported ROM
-        logger.emit(f"Exported ROM: {build_rom_path}")
+        logger.emit(f"Exported ROM: {os.path.join(self.project_dir, build_rom_path)}")
 
     def open_terminal(self):
         """
@@ -375,12 +498,16 @@ class DockerUtil:
         Opens a terminal and runs a Docker command in it.
         """
         project_dir_container = f"/root/projects/{self.project_dir_name}"
-        command = f"docker run --rm -i -t --mount type=bind,source={self.project_dir},target={project_dir_container} " \
-                  f"--workdir '{project_dir_container}' porysuiteimage"
         if sys.platform == "darwin":
+            command = f"docker run --rm -i -t --mount type=bind,source=\\\"{self.project_dir}\\\",target=\\\"{project_dir_container}\\\" " \
+                      f"--workdir '{project_dir_container}' porysuiteimage"
             subprocess.run(["osascript", "-e", f'tell app "Terminal" to do script "{command}"'])
             subprocess.run(["osascript", "-e", 'tell app "Terminal" to activate'])
         elif sys.platform == "win32":
+            command = f"docker run --rm -i -t -v porysuite_{self.project_dir_name}:/root/projects/{self.project_dir_name} " \
+                      f"--workdir /root/projects/{self.project_dir_name} porysuiteimage"
             subprocess.run(["start", "cmd", "/k", command], shell=True)
         else:
+            command = f"docker run --rm -i -t --mount type=bind,source={self.project_dir},target={project_dir_container} " \
+                      f"--workdir '{project_dir_container}' porysuiteimage"
             subprocess.run(command, shell=True)

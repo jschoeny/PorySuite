@@ -739,9 +739,9 @@ class MainWindow(QMainWindow):
                 self.ui.logOutput.clear()
                 self.log("Building ROM...")
                 exporting_dialog = Exporting(parent=self)
+                exporting_dialog.show()
                 self.source_data.parse_to_c_code()
                 self.docker_util.export_rom(exporting_dialog.logSignal)
-                exporting_dialog.exec()
         elif origin == self.ui.actionOpen_in_Terminal:
             if self.docker_util is None:
                 self.docker_util = DockerUtil(self.project_info)
@@ -759,9 +759,6 @@ class MainWindow(QMainWindow):
 
         # Save general data
         self.save_data()
-
-        # Parse data to C code
-        self.source_data.parse_to_c_code()
 
         # Remove "*" from the names of modified Pokemon
         for i in range(self.ui.tree_pokemon.topLevelItemCount()):
