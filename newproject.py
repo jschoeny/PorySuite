@@ -66,11 +66,14 @@ class NewProject(QDialog):
     def add_plugins(self):
         self.plugins = pluginmanager.get_plugins_info()
         self.ui.pluginsList.clear()
-        self.ui.pluginsList.addItem(QListWidgetItem("Choose one..."))
-        for plugin in self.plugins:
-            item = QListWidgetItem(f"{plugin["name"]} | v{plugin["version"]}")
-            item.setData(Qt.UserRole, (plugin["identifier"], plugin["version"]))
-            self.ui.pluginsList.addItem(item)
+        if len(self.plugins) == 0:
+            self.ui.pluginsList.addItem(QListWidgetItem("No plugins found."))
+        else:
+            self.ui.pluginsList.addItem(QListWidgetItem("Choose one..."))
+            for plugin in self.plugins:
+                item = QListWidgetItem(f"{plugin["name"]} | v{plugin["version"]}")
+                item.setData(Qt.UserRole, (plugin["identifier"], plugin["version"]))
+                self.ui.pluginsList.addItem(item)
         self.ui.pluginsList.setCurrentRow(0)
 
     def open(self):
