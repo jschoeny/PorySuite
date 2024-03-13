@@ -54,8 +54,8 @@ _**Windows users:** Unlike most other decomp tools, this should not be run in WS
     ```
     On Windows:
     ```bash
-    bash tools/convert_qrc_to_py.sh
-    bash tools/convert_ui_to_py.sh
+    .\tools\convert_qrc_to_py.bat
+    .\tools\convert_ui_to_py.bat
     ```
     _A VSCode task is also available in this repo to run these scripts before running the project._
 
