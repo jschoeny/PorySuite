@@ -322,22 +322,21 @@ class DockerUtil:
 
     def copy_file_to_host(self, source: str, dest: str):
         if sys.platform == "win32":
-            archive_name = f"archive_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.tar"
-            temp_path = os.path.join(self.project_dir, "temp")
-            os.makedirs(temp_path, exist_ok=True)
-            os.system(f'attrib +h "{temp_path}"')
-            temp_file = os.path.join(temp_path, archive_name)
+            source_path = f"/root/projects/{self.project_dir_name}/{source}"
+            temp_file = io.BytesIO()
             container = self.run_docker_container_command(["echo", "copying"], destroy=False)
-            with open(temp_file, 'wb') as f:
-                bits, stat = container.get_archive(source)
-                for chunk in bits:
-                    f.write(chunk)
-            dest_path = PureWindowsPath(dest).parent
-            with tarfile.open(temp_file) as f:
+            bits, stat = container.get_archive(source_path)
+            for chunk in bits:
+                temp_file.write(chunk)
+            dest_path = os.path.dirname(os.path.join(self.project_dir, dest))
+            temp_file.seek(0)
+            with tarfile.open(fileobj=temp_file) as f:
                 f.extractall(dest_path)
             container.remove(force=True)
         else:
-            shutil.copyfile(source, dest)
+            source_path = os.path.join(self.project_dir, source)
+            dest_path = os.path.join(self.project_dir, dest)
+            shutil.copyfile(source_path, dest_path)
 
     def write_file_to_volume(self, fileobj: io.StringIO, dest: str):
         if sys.platform == "win32":
@@ -477,14 +476,15 @@ class DockerUtil:
 
         # Copy the built ROM to the build directory
         if sys.platform == "win32":
-            source_rom_path = f"/root/projects/{self.project_dir_name}/source/{rom_name}"
+            source_rom_path = f"source/{rom_name}"
         else:
-            source_rom_path = os.path.join(self.project_dir, "source", rom_name)
-        build_rom_path = os.path.join(self.project_dir, "build", rom_name)
+            source_rom_path = os.path.join("source", rom_name)
+        build_rom_path = os.path.join("build", rom_name)
         self.copy_file_to_host(source_rom_path, build_rom_path)
+        self.removefile(source_rom_path)
 
         # Emit log signal to indicate completion and the path of the exported ROM
-        logger.emit(f"Exported ROM: {build_rom_path}")
+        logger.emit(f"Exported ROM: {os.path.join(self.project_dir, build_rom_path)}")
 
     def open_terminal(self):
         """

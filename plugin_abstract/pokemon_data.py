@@ -36,9 +36,9 @@ class ReadSourceFile(object):
             temp_path = os.path.join(project_info["dir"], "temp")
             os.makedirs(temp_path, exist_ok=True)
             os.system(f'attrib +h "{temp_path}"')
-            self.file_path = os.path.join(temp_path, project_info["project_name"], os.path.normpath(file_path))
+            self.file_path = os.path.join(temp_path, os.path.normpath(file_path))
             os.makedirs(PureWindowsPath(self.file_path).parent, exist_ok=True)
-            self.docker_util.copy_file_to_host(f"/root/projects/{project_info['project_name']}/{file_path}", self.file_path)
+            self.docker_util.copy_file_to_host(file_path, self.file_path)
         else:
             self.file_path = os.path.join(project_info["dir"], os.path.normpath(file_path))
 
