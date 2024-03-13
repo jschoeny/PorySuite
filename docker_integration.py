@@ -504,7 +504,8 @@ class DockerUtil:
             subprocess.run(["osascript", "-e", f'tell app "Terminal" to do script "{command}"'])
             subprocess.run(["osascript", "-e", 'tell app "Terminal" to activate'])
         elif sys.platform == "win32":
-            command = f"docker run --rm -i -t -v porysuite_{self.project_dir_name}:/root/projects/{self.project_dir_name}"
+            command = f"docker run --rm -i -t -v porysuite_{self.project_dir_name}:/root/projects/{self.project_dir_name} " \
+                      f"--workdir /root/projects/{self.project_dir_name} porysuiteimage"
             subprocess.run(["start", "cmd", "/k", command], shell=True)
         else:
             subprocess.run(command, shell=True)
