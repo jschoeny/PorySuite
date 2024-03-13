@@ -498,9 +498,9 @@ class DockerUtil:
         Opens a terminal and runs a Docker command in it.
         """
         project_dir_container = f"/root/projects/{self.project_dir_name}"
-        command = f"docker run --rm -i -t --mount type=bind,source=\"{self.project_dir}\",target=\"{project_dir_container}\" " \
-                  f"--workdir '{project_dir_container}' porysuiteimage"
         if sys.platform == "darwin":
+            command = f"docker run --rm -i -t --mount type=bind,source=\\\"{self.project_dir}\\\",target=\\\"{project_dir_container}\\\" " \
+                      f"--workdir '{project_dir_container}' porysuiteimage"
             subprocess.run(["osascript", "-e", f'tell app "Terminal" to do script "{command}"'])
             subprocess.run(["osascript", "-e", 'tell app "Terminal" to activate'])
         elif sys.platform == "win32":
@@ -508,4 +508,6 @@ class DockerUtil:
                       f"--workdir /root/projects/{self.project_dir_name} porysuiteimage"
             subprocess.run(["start", "cmd", "/k", command], shell=True)
         else:
+            command = f"docker run --rm -i -t --mount type=bind,source={self.project_dir},target={project_dir_container} " \
+                      f"--workdir '{project_dir_container}' porysuiteimage"
             subprocess.run(command, shell=True)
