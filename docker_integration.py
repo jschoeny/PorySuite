@@ -506,8 +506,8 @@ class DockerUtil:
         elif sys.platform == "win32":
             command = f"docker run --rm -i -t -v porysuite_{self.project_dir_name}:/root/projects/{self.project_dir_name} " \
                       f"--workdir /root/projects/{self.project_dir_name} porysuiteimage"
-            subprocess.run(["start", "cmd", "/k", command], shell=True)
+            subprocess.run(["start", "cmd", "/k", command], shell=False)
         else:
             command = f"docker run --rm -i -t --mount type=bind,source={self.project_dir},target={project_dir_container} " \
                       f"--workdir '{project_dir_container}' porysuiteimage"
-            subprocess.run(command, shell=True)
+            subprocess.run(command, shell=False)
