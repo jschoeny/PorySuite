@@ -6,6 +6,6 @@
     "identifier": "com.jschoeny.pokeemerald_expansion",
     "rom_base": "emerald",
     "project_base_repo": "https://github.com/rh-hideout/pokeemerald-expansion.git",
-    "project_base_branch": "expansion/1.7.4",
+    "project_base_branch": "expansion/1.8.1",
     "dependencies": []
 }
