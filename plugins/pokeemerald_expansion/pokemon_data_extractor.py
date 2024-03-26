@@ -1,6 +1,7 @@
 import os
 import re
 
+import util.ternary_eval as te
 from plugin_abstract.pokemon_data_extractor import PokemonDataExtractor
 from plugin_abstract.pokemon_data import ReadSourceFile
 
@@ -80,60 +81,6 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                 return result
             return val
 
-        def parse_conditionals(val):
-            # Check if the value is a list or tuple
-            if isinstance(val, list):
-                value_list = val
-            elif isinstance(val, tuple):
-                value_list = list(val)
-            else:
-                value_list = [val]
-
-            # Iterate through each value in the list
-            for i in range(len(value_list)):
-                # Check if the value is a string
-                if not isinstance(value_list[i], str):
-                    continue
-
-                # Use regex to match conditional expressions
-                matches = re.findall(r'(?:\b|\()\s*(.+?)\s+(.+?)\s+(.+?)\s+(\?)\s+(.+?)\s+(:)\s+(.+?)(?:\)|$)',
-                                     value_list[i])
-
-                # If there is a single match, extract the parameters
-                if len(matches) == 1:
-                    match = matches[0]
-                    param1, condition, param2, _, true_value, _, false_value = match
-                    to_add = 0
-                    to_subtract = 0
-
-                    # Check if there is a value to add or subtract
-                    if value_list[i].split(" ")[-2] == "+":
-                        to_add = int(value_list[i].split(" ")[-1])
-                    elif value_list[i].split(" ")[-2] == "-":
-                        to_subtract = int(value_list[i].split(" ")[-1])
-
-                    # Create a dictionary of parameters
-                    parameters = {
-                        "param1": param1,
-                        "condition": condition,
-                        "param2": param2,
-                        "true_value": true_value,
-                        "false_value": false_value,
-                        "to_add": to_add,
-                        "to_subtract": to_subtract
-                    }
-
-                    # Update the value with the parameters
-                    if isinstance(val, str):
-                        val = parameters
-                    else:
-                        value_list[i] = parameters
-
-            # Return the updated value
-            if isinstance(val, list) or isinstance(val, tuple):
-                return value_list
-            return val
-
         # Dictionary of parsers
         parsers = {
             "types": parse_types,
@@ -157,7 +104,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         except ValueError:
             pass
         if key in parsers:
-            value = parse_conditionals(parsers[key](value))
+            value = te.eval_expression(parsers[key](value))
 
         return key, value
 
@@ -165,7 +112,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         # Preprocess files
         self.docker_util.preprocess_c_file(
             "src/data/pokemon/species_info.h",
-            ["include/config/pokemon.h"]
+            ["include/config/pokemon.h", "include/metaprogram.h"]
         )
 
         # Parse Species dex numbers
