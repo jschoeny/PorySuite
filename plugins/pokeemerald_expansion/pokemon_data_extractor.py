@@ -112,7 +112,8 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         # Preprocess files
         self.docker_util.preprocess_c_file(
             "src/data/pokemon/species_info.h",
-            ["include/config/pokemon.h", "include/metaprogram.h"]
+            ["include/config/pokemon.h", "include/metaprogram.h"],
+            ["COMPOUND_STRING"]
         )
 
         # Parse Species dex numbers
