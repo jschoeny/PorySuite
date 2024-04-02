@@ -500,7 +500,6 @@ class MovesDataExtractor(PokemonDataExtractor):
         super().__init__(project_info, data_file, files)
         self.moves_data = {
             "moves": {},
-            "move_descriptions": {},
             "constants": {}
         }
 
@@ -532,12 +531,27 @@ class MovesDataExtractor(PokemonDataExtractor):
                 val = self.__parse_macro(val)
         return val
 
+    def __parse_move_info(self, value: str) -> str | int | dict:
+        try:
+            value = int(value)
+        except ValueError:
+            if value == "TRUE":
+                value = True
+            elif value == "FALSE":
+                value = False
+            elif re.search(r'_\("(.*)"\)', str(value)):
+                value = re.sub(r'_\("(.*)"\)', r'\1', str(value))
+            elif re.search(r'COMPOUND_STRING\("(.*)"\)', str(value)):
+                value = re.sub(r'COMPOUND_STRING\("(.*)"\)', r'\1', str(value))
+        return value
+
     def extract_data(self) -> dict:
         # with open(os.path.join(self.project_dir, "source", "include", "constants", "moves.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/include/constants/moves.h") as file:
             lines = file.readlines()
 
         for line in lines:
+            # Check for move definitions
             match = re.match(r'#define MOVE_(.*?) (.*?)\n', line)
             if match:
                 move = match.group(1)
@@ -550,16 +564,20 @@ class MovesDataExtractor(PokemonDataExtractor):
                         value = int(value)
                 except ValueError:
                     if "//" in value:
+                        value = value.split(" //")[0]
+                        if value in self.moves_data["moves"]:
+                            self.moves_data["moves"][value]["alt_ids"].append(move)
                         continue
-                    pass
                 self.moves_data["moves"]["MOVE_" + move] = {
                     "name": move_name,
                     "id": value,
-                    "battle_data": {},
-                    "contest_data": {},
+                    "alt_ids": [],
+                    "info": {},
                     "description_var": "",
                 }
                 continue
+
+            # Check for move constants
             match = re.match(r'\s*#define (.*?)\s+(.*?)\n', line)
             if match:
                 constant = match.group(1)
@@ -583,39 +601,13 @@ class MovesDataExtractor(PokemonDataExtractor):
                 self.moves_data["constants"][constant] = self.__parse_macro(
                     self.moves_data["constants"][constant].strip())
 
-        self.docker_util.preprocess_c_file(
-            "src/data/text/move_descriptions.h",
-            ["include/config/battle.h"]
-        )
-        # with open(os.path.join(self.project_dir, "processed", "src", "data", "text", "move_descriptions.h"), 'r', encoding="utf-8") as file:
-        with ReadSourceFile(self.project_info, "processed/src/data/text/move_descriptions.h") as file:
+        with ReadSourceFile(self.project_info, "source/src/data/moves_info.h") as file:
             lines = file.readlines()
 
         current_move = None
-        for line in lines:
-            match = re.match(r'\s*static const u8 (.*?)\[\]\s*=\s*_\(', line)
-            if match:
-                current_move = match.group(1)
-                self.moves_data["move_descriptions"][current_move] = ""
-                continue
-            if current_move is not None:
-                if line.strip().endswith(");"):
-                    self.moves_data["move_descriptions"][current_move] += line.strip().rstrip(");").strip("\"")
-                    current_move = None
-                else:
-                    self.moves_data["move_descriptions"][current_move] += line.strip().strip("\"").replace("\\n", "\n")
-                continue
-            match = re.match(r'\s*\[MOVE_(.*?) - 1\]\s*=\s*(.*?),', line)
-            if match:
-                move = "MOVE_" + match.group(1)
-                self.moves_data["moves"][move]["description_var"] = match.group(2).strip()
-                continue
-
-        # with open(os.path.join(self.project_dir, "source", "src", "data", "battle_moves.h"), 'r', encoding="utf-8") as file:
-        with ReadSourceFile(self.project_info, "source/src/data/battle_moves.h") as file:
-            lines = file.readlines()
-
-        current_move = None
+        is_compound_string = False
+        compound_string = ""
+        key = ""
         for line in lines:
             match = re.match(r'\s*\[MOVE_(.*?)\]\s*=\s*', line)
             if match:
@@ -624,19 +616,22 @@ class MovesDataExtractor(PokemonDataExtractor):
                     current_move = None
                 continue
             if current_move is not None:
+                if is_compound_string:
+                    compound_string += line.strip().strip("\"")
+                    if compound_string.endswith("),"):
+                        is_compound_string = False
+                        compound_string = compound_string.rstrip("),").strip("\"").replace("\\n", "\n")
+                        self.moves_data["moves"][current_move]["info"][key] = compound_string
+                        compound_string = ""
+                    continue
                 match = re.match(r'\s*\.(.*) = (.*),', line)
                 if match:
                     key = match.group(1).strip()
-                    value = match.group(2).strip()
-                    try:
-                        value = int(value)
-                    except ValueError:
-                        pass
-                    if value == "TRUE":
-                        value = True
-                    elif value == "FALSE":
-                        value = False
-                    self.moves_data["moves"][current_move]["battle_data"][key] = value
+                    if line.endswith("COMPOUND_STRING("):
+                        is_compound_string = True
+                        continue
+                    value = self.__parse_move_info(match.group(2).strip())
+                    self.moves_data["moves"][current_move]["info"][key] = value
                 elif line.strip().endswith("},"):
                     current_move = None
 
