@@ -296,13 +296,22 @@ class ItemsDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
+        self.docker_util.preprocess_c_file(
+            "src/data/items.h",
+            ["include/config/item.h", "include/config.h", "include/metaprogram.h"],
+            ["COMPOUND_STRING"]
+        )
+
         # with open(os.path.join(self.project_dir, "source", "src", "data", "items.h"), 'r', encoding="utf-8") as file:
-        with ReadSourceFile(self.project_info, "source/src/data/items.h") as file:
+        with ReadSourceFile(self.project_info, "processed/src/data/items.h") as file:
             lines = file.readlines()
 
         items = {}
         current_item = None
         item_index = 0
+        is_compound_string = False
+        compound_string = ""
+        key = ""
         for line in lines:
             match = re.match(r'\s*\[ITEM_(.+)\] =', line)
             if match:
@@ -312,26 +321,35 @@ class ItemsDataExtractor(PokemonDataExtractor):
                 item_index += 1
                 continue
             if current_item is not None:
-                match = re.match(r'\s*\.(.*) = (.*),', line)
+                if is_compound_string:
+                    compound_string += line.strip().strip("\"")
+                    if compound_string.endswith("),"):
+                        is_compound_string = False
+                        compound_string = compound_string.rstrip("),").strip("\"").replace("\\n", "\n")
+                        items[current_item]["data"][key] = compound_string
+                        compound_string = ""
+                    continue
+                match = re.match(r'\s*\.(.*) = (.*),*\n', line)
                 if match:
                     key = match.group(1).strip()
-                    value = match.group(2).strip()
+                    if line.strip().endswith("COMPOUND_STRING("):
+                        is_compound_string = True
+                        continue
+
+                    value = te.eval_expression(match.group(2).strip().rstrip(','))
+                    if re.search(r'_\("(.*)"\)', str(value)):
+                        value = re.sub(r'_\("(.*)"\)', r'\1', str(value))
+                    elif re.search(r'COMPOUND_STRING\("(.*)"\)', str(value)):
+                        value = re.sub(r'COMPOUND_STRING\("(.*)"\)', r'\1', str(value))
                     if key == "name":
                         if current_item == "ITEM_NONE":
                             value = "None"
-                        else:
-                            value = re.sub(r'_\("(.*)"\)', r'\1', value)
                         items[current_item]["name"] = value
                         continue
-                    elif key == "price":
+                    try:
                         value = int(value)
-                    elif key == "holdEffectParam":
-                        try:
-                            value = int(value)
-                        except ValueError:
-                            pass
-                    elif key == "flingPower":
-                        value = int(value)
+                    except ValueError:
+                        pass
                     items[current_item]["data"][key] = value
         return items
 
