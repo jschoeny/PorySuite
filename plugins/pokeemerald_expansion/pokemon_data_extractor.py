@@ -104,7 +104,8 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         except ValueError:
             pass
         if key in parsers:
-            value = te.eval_expression(parsers[key](value))
+            value = parsers[key](value)
+        value = te.eval_expression(value)
 
         return key, value
 
@@ -112,7 +113,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         # Preprocess files
         self.docker_util.preprocess_c_file(
             "src/data/pokemon/species_info.h",
-            ["include/config/pokemon.h", "include/metaprogram.h"],
+            ["include/config.h", "include/config/pokemon.h", "include/metaprogram.h"],
             ["COMPOUND_STRING"]
         )
 
