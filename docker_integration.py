@@ -330,7 +330,7 @@ class DockerUtil:
             self.run_docker_container_command(
                 wdir=f"/root/projects/{self.project_dir_name}/source",
                 args=args,
-                logger=None, destroy=False
+                logger=None
             )
             if undefines is not None:
                 self.run_docker_container_command(
