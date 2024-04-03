@@ -48,7 +48,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
 
         def parse_pic_size(val):
             match = re.match(r'MON_COORDS_SIZE\((.*), (.*)\)', val)
-            return match.groups()
+            return [int(match.group(1)), int(match.group(2))]
 
         def parse_evolutions(val):
             if isinstance(val, str):
@@ -209,8 +209,9 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                 if len(values) > 1:
                     match = re.match(r'\s*\[(SPECIES_.+?)\]\s=\s*\{.*', line)
                     if match:
-                        values[0] = values[0].split("{")[1].strip()
-                        values[-1] = values[-1].rstrip(", }")
+                        values[0] = values[0].split("{")[1].strip().lstrip(".")
+                        if values[-1].endswith(", }"):
+                            values[-1] = values[-1][:-3].strip()
                     for v in values:
                         key = v.split(" = ")[0].strip()
                         value = v.split(" = ")[1].strip()
