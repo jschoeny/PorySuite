@@ -566,7 +566,7 @@ class PokemonStarters(pokemon_data.PokemonStarters):
         switch_case_code = '    switch(gSpecialVar_Result)\n    {\n'
         for i, starter in enumerate(self.data):
             switch_case_code += f'        case {i}: // {starter["species"]}\n' \
-                                f'            ScriptGiveMon(starterMon, {starter["level"]}, {starter["item"]}, 0, 0, 0);\n'
+                                f'            ScriptGiveMon(starterMon, {starter["level"]}, {starter["item"]});\n'
             if starter["custom_move"] != "MOVE_NONE":
                 switch_case_code += f'            GiveMoveToMon(&gPlayerParty[0], {starter["custom_move"]});\n'
             if starter["ability_num"] != -1:

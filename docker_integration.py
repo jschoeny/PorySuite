@@ -283,13 +283,14 @@ class DockerUtil:
             print(e)
             return None
 
-    def preprocess_c_file(self, input_file: str, includes: list = None):
+    def preprocess_c_file(self, input_file: str, includes: list = None, undefines: list = None):
         """
         Preprocesses a C file using gcc and saves the output in the 'processed' directory of the project.
 
         Args:
             input_file (str): The path to the input C file.
             includes (list, optional): A list of additional include files to be used during preprocessing.
+            undefines (list, optional): A list of macros to be undefined during preprocessing.
         """
         includes_args = []
 
@@ -297,6 +298,9 @@ class DockerUtil:
             for include in includes:
                 includes_args.append("-include")
                 includes_args.append(include)
+        if undefines is not None:
+            includes_args.append("-include")
+            includes_args.append("undefined_macros.h")
 
         output_file = f"../processed/{input_file}"
 
@@ -311,12 +315,29 @@ class DockerUtil:
         ]
 
         try:
+            if undefines is not None:
+                undefines = ["echo \"#undef " + u + "\"" for u in undefines]
+                undefines[0] += " > include/undefined_macros.h"
+                for i in range(1, len(undefines)):
+                    undefines[i] += " >> include/undefined_macros.h"
+                undefines_str = " && ".join(undefines)
+                self.run_docker_container_command(
+                    wdir=f"/root/projects/{self.project_dir_name}/source",
+                    args=["bash", "-c", undefines_str],
+                    logger=None
+                )
             self.makedirs(f"processed/{os.path.dirname(input_file)}")
             self.run_docker_container_command(
                 wdir=f"/root/projects/{self.project_dir_name}/source",
                 args=args,
                 logger=None
             )
+            if undefines is not None:
+                self.run_docker_container_command(
+                    wdir=f"/root/projects/{self.project_dir_name}/source",
+                    args=["rm", "include/undefined_macros.h"],
+                    logger=None
+                )
         except Exception as e:
             print(f"An error occurred while preprocessing: {e}")
 

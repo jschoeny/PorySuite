@@ -1,6 +1,7 @@
 import os
 import re
 
+import util.ternary_eval as te
 from plugin_abstract.pokemon_data_extractor import PokemonDataExtractor
 from plugin_abstract.pokemon_data import ReadSourceFile
 
@@ -47,7 +48,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
 
         def parse_pic_size(val):
             match = re.match(r'MON_COORDS_SIZE\((.*), (.*)\)', val)
-            return match.groups()
+            return [int(match.group(1)), int(match.group(2))]
 
         def parse_evolutions(val):
             if isinstance(val, str):
@@ -80,60 +81,6 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                 return result
             return val
 
-        def parse_conditionals(val):
-            # Check if the value is a list or tuple
-            if isinstance(val, list):
-                value_list = val
-            elif isinstance(val, tuple):
-                value_list = list(val)
-            else:
-                value_list = [val]
-
-            # Iterate through each value in the list
-            for i in range(len(value_list)):
-                # Check if the value is a string
-                if not isinstance(value_list[i], str):
-                    continue
-
-                # Use regex to match conditional expressions
-                matches = re.findall(r'(?:\b|\()\s*(.+?)\s+(.+?)\s+(.+?)\s+(\?)\s+(.+?)\s+(:)\s+(.+?)(?:\)|$)',
-                                     value_list[i])
-
-                # If there is a single match, extract the parameters
-                if len(matches) == 1:
-                    match = matches[0]
-                    param1, condition, param2, _, true_value, _, false_value = match
-                    to_add = 0
-                    to_subtract = 0
-
-                    # Check if there is a value to add or subtract
-                    if value_list[i].split(" ")[-2] == "+":
-                        to_add = int(value_list[i].split(" ")[-1])
-                    elif value_list[i].split(" ")[-2] == "-":
-                        to_subtract = int(value_list[i].split(" ")[-1])
-
-                    # Create a dictionary of parameters
-                    parameters = {
-                        "param1": param1,
-                        "condition": condition,
-                        "param2": param2,
-                        "true_value": true_value,
-                        "false_value": false_value,
-                        "to_add": to_add,
-                        "to_subtract": to_subtract
-                    }
-
-                    # Update the value with the parameters
-                    if isinstance(val, str):
-                        val = parameters
-                    else:
-                        value_list[i] = parameters
-
-            # Return the updated value
-            if isinstance(val, list) or isinstance(val, tuple):
-                return value_list
-            return val
-
         # Dictionary of parsers
         parsers = {
             "types": parse_types,
@@ -157,7 +104,8 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         except ValueError:
             pass
         if key in parsers:
-            value = parse_conditionals(parsers[key](value))
+            value = parsers[key](value)
+        value = te.eval_expression(value)
 
         return key, value
 
@@ -165,11 +113,11 @@ class SpeciesDataExtractor(PokemonDataExtractor):
         # Preprocess files
         self.docker_util.preprocess_c_file(
             "src/data/pokemon/species_info.h",
-            ["include/config/pokemon.h"]
+            ["include/config.h", "include/config/pokemon.h", "include/metaprogram.h"],
+            ["COMPOUND_STRING"]
         )
 
         # Parse Species dex numbers
-        # with open(os.path.join(self.project_dir, "source", "include", "constants", "pokedex.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/include/constants/pokedex.h") as file:
             lines = file.readlines()
 
@@ -203,7 +151,6 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                 pokemon_species["SPECIES_" + species] = species_data
 
         # Parse species info
-        # with open(os.path.join(self.project_dir, "processed", "src", "data", "pokemon", "species_info.h"), 'r', encoding="utf-8", errors='ignore') as file:
         with ReadSourceFile(self.project_info, "processed/src/data/pokemon/species_info.h") as file:
             lines = file.readlines()
 
@@ -262,8 +209,9 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                 if len(values) > 1:
                     match = re.match(r'\s*\[(SPECIES_.+?)\]\s=\s*\{.*', line)
                     if match:
-                        values[0] = values[0].split("{")[1].strip()
-                        values[-1] = values[-1].rstrip(", }")
+                        values[0] = values[0].split("{")[1].strip().lstrip(".")
+                        if values[-1].endswith(", }"):
+                            values[-1] = values[-1][:-3].strip()
                     for v in values:
                         key = v.split(" = ")[0].strip()
                         value = v.split(" = ")[1].strip()
@@ -296,7 +244,6 @@ class SpeciesGraphicsDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        # with open(os.path.join(self.project_dir, "source", "src", "data", "graphics", "pokemon.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/src/data/graphics/pokemon.h") as file:
             lines = file.readlines()
 
@@ -323,7 +270,6 @@ class AbilitiesDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        # with open(os.path.join(self.project_dir, "source", "include", "constants", "abilities.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/include/constants/abilities.h") as file:
             lines = file.readlines()
 
@@ -347,13 +293,21 @@ class ItemsDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> dict:
-        # with open(os.path.join(self.project_dir, "source", "src", "data", "items.h"), 'r', encoding="utf-8") as file:
-        with ReadSourceFile(self.project_info, "source/src/data/items.h") as file:
+        self.docker_util.preprocess_c_file(
+            "src/data/items.h",
+            ["include/config/item.h", "include/config.h", "include/metaprogram.h"],
+            ["COMPOUND_STRING"]
+        )
+
+        with ReadSourceFile(self.project_info, "processed/src/data/items.h") as file:
             lines = file.readlines()
 
         items = {}
         current_item = None
         item_index = 0
+        is_compound_string = False
+        compound_string = ""
+        key = ""
         for line in lines:
             match = re.match(r'\s*\[ITEM_(.+)\] =', line)
             if match:
@@ -363,26 +317,35 @@ class ItemsDataExtractor(PokemonDataExtractor):
                 item_index += 1
                 continue
             if current_item is not None:
-                match = re.match(r'\s*\.(.*) = (.*),', line)
+                if is_compound_string:
+                    compound_string += line.strip().strip("\"")
+                    if compound_string.endswith("),"):
+                        is_compound_string = False
+                        compound_string = compound_string.rstrip("),").strip("\"").replace("\\n", "\n")
+                        items[current_item]["data"][key] = compound_string
+                        compound_string = ""
+                    continue
+                match = re.match(r'\s*\.(.*) = (.*),*\n', line)
                 if match:
                     key = match.group(1).strip()
-                    value = match.group(2).strip()
+                    if line.strip().endswith("COMPOUND_STRING("):
+                        is_compound_string = True
+                        continue
+
+                    value = te.eval_expression(match.group(2).strip().rstrip(','))
+                    if re.search(r'_\("(.*)"\)', str(value)):
+                        value = re.sub(r'_\("(.*)"\)', r'\1', str(value))
+                    elif re.search(r'COMPOUND_STRING\("(.*)"\)', str(value)):
+                        value = re.sub(r'COMPOUND_STRING\("(.*)"\)', r'\1', str(value))
                     if key == "name":
                         if current_item == "ITEM_NONE":
                             value = "None"
-                        else:
-                            value = re.sub(r'_\("(.*)"\)', r'\1', value)
                         items[current_item]["name"] = value
                         continue
-                    elif key == "price":
+                    try:
                         value = int(value)
-                    elif key == "holdEffectParam":
-                        try:
-                            value = int(value)
-                        except ValueError:
-                            pass
-                    elif key == "flingPower":
-                        value = int(value)
+                    except ValueError:
+                        pass
                     items[current_item]["data"][key] = value
         return items
 
@@ -404,7 +367,6 @@ class PokemonConstantsExtractor(PokemonDataExtractor):
         }
 
     def extract_data(self) -> dict:
-        # with open(os.path.join(self.project_dir, "source", "include", "constants", "pokemon.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/include/constants/pokemon.h") as file:
             lines = file.readlines()
 
@@ -497,7 +459,6 @@ class StartersDataExtractor(PokemonDataExtractor):
         return key, value
 
     def extract_data(self) -> list:
-        # with open(os.path.join(self.project_dir, "source", "src", "starter_choose.c"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/src/starter_choose.c") as file:
             lines = file.readlines()
 
@@ -533,7 +494,6 @@ class MovesDataExtractor(PokemonDataExtractor):
         super().__init__(project_info, data_file, files)
         self.moves_data = {
             "moves": {},
-            "move_descriptions": {},
             "constants": {}
         }
 
@@ -565,12 +525,26 @@ class MovesDataExtractor(PokemonDataExtractor):
                 val = self.__parse_macro(val)
         return val
 
+    def __parse_move_info(self, value: str) -> str | int | dict:
+        try:
+            value = int(value)
+        except ValueError:
+            if value == "TRUE":
+                value = True
+            elif value == "FALSE":
+                value = False
+            elif re.search(r'_\("(.*)"\)', str(value)):
+                value = re.sub(r'_\("(.*)"\)', r'\1', str(value))
+            elif re.search(r'COMPOUND_STRING\("(.*)"\)', str(value)):
+                value = re.sub(r'COMPOUND_STRING\("(.*)"\)', r'\1', str(value))
+        return value
+
     def extract_data(self) -> dict:
-        # with open(os.path.join(self.project_dir, "source", "include", "constants", "moves.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "source/include/constants/moves.h") as file:
             lines = file.readlines()
 
         for line in lines:
+            # Check for move definitions
             match = re.match(r'#define MOVE_(.*?) (.*?)\n', line)
             if match:
                 move = match.group(1)
@@ -583,16 +557,20 @@ class MovesDataExtractor(PokemonDataExtractor):
                         value = int(value)
                 except ValueError:
                     if "//" in value:
+                        value = value.split(" //")[0]
+                        if value in self.moves_data["moves"]:
+                            self.moves_data["moves"][value]["alt_ids"].append(move)
                         continue
-                    pass
                 self.moves_data["moves"]["MOVE_" + move] = {
                     "name": move_name,
                     "id": value,
-                    "battle_data": {},
-                    "contest_data": {},
+                    "alt_ids": [],
+                    "info": {},
                     "description_var": "",
                 }
                 continue
+
+            # Check for move constants
             match = re.match(r'\s*#define (.*?)\s+(.*?)\n', line)
             if match:
                 constant = match.group(1)
@@ -616,39 +594,13 @@ class MovesDataExtractor(PokemonDataExtractor):
                 self.moves_data["constants"][constant] = self.__parse_macro(
                     self.moves_data["constants"][constant].strip())
 
-        self.docker_util.preprocess_c_file(
-            "src/data/text/move_descriptions.h",
-            ["include/config/battle.h"]
-        )
-        # with open(os.path.join(self.project_dir, "processed", "src", "data", "text", "move_descriptions.h"), 'r', encoding="utf-8") as file:
-        with ReadSourceFile(self.project_info, "processed/src/data/text/move_descriptions.h") as file:
+        with ReadSourceFile(self.project_info, "source/src/data/moves_info.h") as file:
             lines = file.readlines()
 
         current_move = None
-        for line in lines:
-            match = re.match(r'\s*static const u8 (.*?)\[\]\s*=\s*_\(', line)
-            if match:
-                current_move = match.group(1)
-                self.moves_data["move_descriptions"][current_move] = ""
-                continue
-            if current_move is not None:
-                if line.strip().endswith(");"):
-                    self.moves_data["move_descriptions"][current_move] += line.strip().rstrip(");").strip("\"")
-                    current_move = None
-                else:
-                    self.moves_data["move_descriptions"][current_move] += line.strip().strip("\"").replace("\\n", "\n")
-                continue
-            match = re.match(r'\s*\[MOVE_(.*?) - 1\]\s*=\s*(.*?),', line)
-            if match:
-                move = "MOVE_" + match.group(1)
-                self.moves_data["moves"][move]["description_var"] = match.group(2).strip()
-                continue
-
-        # with open(os.path.join(self.project_dir, "source", "src", "data", "battle_moves.h"), 'r', encoding="utf-8") as file:
-        with ReadSourceFile(self.project_info, "source/src/data/battle_moves.h") as file:
-            lines = file.readlines()
-
-        current_move = None
+        is_compound_string = False
+        compound_string = ""
+        key = ""
         for line in lines:
             match = re.match(r'\s*\[MOVE_(.*?)\]\s*=\s*', line)
             if match:
@@ -657,19 +609,22 @@ class MovesDataExtractor(PokemonDataExtractor):
                     current_move = None
                 continue
             if current_move is not None:
+                if is_compound_string:
+                    compound_string += line.strip().strip("\"")
+                    if compound_string.endswith("),"):
+                        is_compound_string = False
+                        compound_string = compound_string.rstrip("),").strip("\"").replace("\\n", "\n")
+                        self.moves_data["moves"][current_move]["info"][key] = compound_string
+                        compound_string = ""
+                    continue
                 match = re.match(r'\s*\.(.*) = (.*),', line)
                 if match:
                     key = match.group(1).strip()
-                    value = match.group(2).strip()
-                    try:
-                        value = int(value)
-                    except ValueError:
-                        pass
-                    if value == "TRUE":
-                        value = True
-                    elif value == "FALSE":
-                        value = False
-                    self.moves_data["moves"][current_move]["battle_data"][key] = value
+                    if line.endswith("COMPOUND_STRING("):
+                        is_compound_string = True
+                        continue
+                    value = self.__parse_move_info(match.group(2).strip())
+                    self.moves_data["moves"][current_move]["info"][key] = value
                 elif line.strip().endswith("},"):
                     current_move = None
 
@@ -690,7 +645,6 @@ class PokedexDataExtractor(PokemonDataExtractor):
             ["include/config/species_enabled.h"]
         )
 
-        # with open(os.path.join(self.project_dir, "processed", "include", "constants", "pokedex.h"), 'r', encoding="utf-8") as file:
         with ReadSourceFile(self.project_info, "processed/include/constants/pokedex.h") as file:
             lines = file.readlines()
 
