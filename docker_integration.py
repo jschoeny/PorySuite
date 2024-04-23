@@ -20,6 +20,7 @@ from PySide6.QtWidgets import QDialog, QApplication
 from app_info import APP_NAME, AUTHOR
 from ui.ui_docker_not_running import Ui_DockerNotRunning
 from ui.ui_programsetup import Ui_ProgramSetup
+from security import safe_command
 
 SETUP_LOG_FINISH = "*** SETUP COMPLETE ***"
 
@@ -522,13 +523,13 @@ class DockerUtil:
         if sys.platform == "darwin":
             command = f"docker run --rm -i -t --mount type=bind,source=\\\"{self.project_dir}\\\",target=\\\"{project_dir_container}\\\" " \
                       f"--workdir '{project_dir_container}' porysuiteimage"
-            subprocess.run(["osascript", "-e", f'tell app "Terminal" to do script "{command}"'])
-            subprocess.run(["osascript", "-e", 'tell app "Terminal" to activate'])
+            safe_command.run(subprocess.run, ["osascript", "-e", f'tell app "Terminal" to do script "{command}"'])
+            safe_command.run(subprocess.run, ["osascript", "-e", 'tell app "Terminal" to activate'])
         elif sys.platform == "win32":
             command = f"docker run --rm -i -t -v porysuite_{self.project_dir_name}:/root/projects/{self.project_dir_name} " \
                       f"--workdir /root/projects/{self.project_dir_name} porysuiteimage"
-            subprocess.run(["start", "cmd", "/k", command], shell=True)
+            safe_command.run(subprocess.run, ["start", "cmd", "/k", command], shell=False)
         else:
             command = f"docker run --rm -i -t --mount type=bind,source={self.project_dir},target={project_dir_container} " \
                       f"--workdir '{project_dir_container}' porysuiteimage"
-            subprocess.run(command, shell=True)
+            safe_command.run(subprocess.run, command, shell=False)
