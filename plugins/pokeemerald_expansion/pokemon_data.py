@@ -119,7 +119,7 @@ class SpeciesData(pokemon_data.SpeciesData):
             else:
                 value = self.data[species]["forms"][form]["species_info"][key]
 
-            if isinstance(value, list) or isinstance(value, dict):
+            if isinstance(value, (list, dict)):
                 value = self.process_value(value)
 
         except KeyError:

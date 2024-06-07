@@ -130,7 +130,7 @@ class SpeciesDataExtractor(PokemonDataExtractor):
                         value_list[i] = parameters
 
             # Return the updated value
-            if isinstance(val, list) or isinstance(val, tuple):
+            if isinstance(val, (list, tuple)):
                 return value_list
             return val
 
