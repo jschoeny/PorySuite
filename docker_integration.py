@@ -20,6 +20,7 @@ from PySide6.QtWidgets import QDialog, QApplication
 from app_info import APP_NAME, AUTHOR
 from ui.ui_docker_not_running import Ui_DockerNotRunning
 from ui.ui_programsetup import Ui_ProgramSetup
+from security import safe_command
 
 SETUP_LOG_FINISH = "*** SETUP COMPLETE ***"
 
@@ -510,4 +511,4 @@ class DockerUtil:
         else:
             command = f"docker run --rm -i -t --mount type=bind,source={self.project_dir},target={project_dir_container} " \
                       f"--workdir '{project_dir_container}' porysuiteimage"
-            subprocess.run(command, shell=True)
+            safe_command.run(subprocess.run, command, shell=True)
