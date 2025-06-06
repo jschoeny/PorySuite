@@ -1,3 +1,8 @@
+### ⚠️ INACTIVE ⚠️
+This project is no longer maintained and is extremely outdated, **so it _should not_ be used**. If the decomps move most data to JSON (which would make maintenance more reasonable), there's a chance this project could resume, but for now it remains inactive.
+
+---
+
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)
 ![Pyside6](https://img.shields.io/badge/pyside6-6.2.1-blue.svg)
 
