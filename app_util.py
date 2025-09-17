@@ -3,6 +3,7 @@ import sys
 import subprocess
 
 from PySide6.QtWidgets import QMessageBox
+from security import safe_command
 
 
 def reveal_directory(directory, is_file=False):
@@ -16,7 +17,7 @@ def reveal_directory(directory, is_file=False):
     if sys.platform == 'win32':  # Windows
         if is_file:
             # Using explorer and /select flag to open the folder and select the file
-            subprocess.Popen(fr'explorer /select,"{os.path.normpath(directory)}"')
+            safe_command.run(subprocess.Popen, fr'explorer /select,"{os.path.normpath(directory)}"')
         else:
             # Using explorer to open the folder
             subprocess.run(['explorer', os.path.normpath(directory)], check=True)
@@ -40,7 +41,7 @@ def reveal_directory(directory, is_file=False):
                 }[os.environ['XDG_CURRENT_DESKTOP']]
 
                 # Attempt to use the file manager directly to open the folder
-                subprocess.run([file_manager, directory], check=True)
+                safe_command.run(subprocess.run, [file_manager, directory], check=True)
             except KeyError:
                 # If the desktop environment is unknown, fall back to xdg-open
                 subprocess.run(['xdg-open', directory], check=True)
